@@ -20,13 +20,13 @@ if __name__ == '__main__':
     
     txtCheck(path,'start')
 
-    print('Start your task time.')
+    print('Start your task.')
     print(start)
 
     try:
         with open(path, mode='a') as f:
             #f.write('----------------------------------\n')
-            f.write("start = "+str(start)+'\n')
+            f.write("start: "+str(start)+'\n')
     except FileNotFoundError as e:
         print(e)
 
