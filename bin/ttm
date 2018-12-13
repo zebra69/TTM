@@ -1,0 +1,29 @@
+#!/bin/bash
+
+COMMAND=`basename $0`
+
+while getopts sec OPTION
+do
+  case $OPTION in
+    "s" ) OPTION_s="TRUE";;
+    "e" ) OPTION_e="TRUE";;
+    "c" ) OPTION_c="TRUE";;
+      * ) echo "Usage: $COMMAND [-s|e|c]" 1>&2
+          exit 1 ;;
+  esac
+done
+
+
+if [ "$OPTION_s" = "TRUE" ]; then
+  ../build/start.py
+fi
+
+if [ "$OPTION_e" = "TRUE" ]; then
+  ../build/end.py
+fi
+
+if [ "$OPTION_c" = "TRUE" ]; then
+  ../build/calculate.py
+fi
+
+exit 0
