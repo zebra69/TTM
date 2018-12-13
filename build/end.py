@@ -31,7 +31,7 @@ def getTime(fname):
 
 
 if __name__ == '__main__':
-    path = './recorder/record.txt'
+    path = '../recorder/record.txt'
     txtCheck(path,'start')
     
     start_time=getTime(path)

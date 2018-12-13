@@ -16,7 +16,7 @@ def txtCheck(fname, check):
 if __name__ == '__main__':
     start = datetime.now()
 
-    path = './recorder/record.txt'
+    path = '../recorder/record.txt'
     
     txtCheck(path,'start')
 

@@ -14,15 +14,15 @@ def txtCheck(fname, check):
         print(e)
 
 def calculateTime(s_time,e_time):
-    result=int(e_time[0])-int(s_time[0]),int(e_time[1])-int(s_time[1]),int(e_time[2])-int(s_time[2])
-    if result[0] < 0:
-        result[0]=60-result[0]
+    result=[int(e_time[0])-int(s_time[0]),int(e_time[1])-int(s_time[1]),int(e_time[2])-int(s_time[2])]
+    if result[2] < 0:
+        result[2]=60+result[2]
         result[1]-=1
     if result[1] < 0:
-        result[1]=60-result[1]
-        result[2]-=1
-    if result[2] < 0:
-        result[2]=60-result[2]
+        result[1]=60+result[1]
+        result[0]-=1
+    if result[0] < 0:
+        result[0]=24+result[0]
     return result
 
 def startGetTime(fname):
@@ -51,7 +51,7 @@ def endGetTime(fname):
 
 
 if __name__ == '__main__':
-    path = './recorder/record.txt'
+    path = '../recorder/record.txt'
     txtCheck(path,'end')
     
     start_time=startGetTime(path)
@@ -61,7 +61,7 @@ if __name__ == '__main__':
             task_time=calculateTime(start_time,end_time)
             
             f.write("task time: "+ str(task_time[0]) +":"+str(task_time[1])+":"+str(task_time[2]))
-            f.write('----------------------------------\n')
+            f.write('\n----------------------------------\n')
             print("task time: "+str(task_time[0])+":"+str(task_time[1])+":"+str(task_time[2]))
         
     except FileNotFoundError as e:
