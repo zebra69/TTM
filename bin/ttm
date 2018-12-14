@@ -1,31 +1,59 @@
 #!/bin/bash
+PROGNAME=$(basename $0)
+VERSION="1.3"
 
-cd `dirname $0`
+usage() {
+    echo "Usage: $PROGNAME [OPTIONS]"
+    echo
+    echo "Options:"
+    echo "  [-h, --help] [ --version] "
+    echo "  [-s,--start] [-e,--end] [-c, --calculate]"
+    echo "  [-rmal]"
+    exit 1
+}
 
-COMMAND=`basename $0`
-
-while getopts sec OPTION
+for OPT in "$@"
 do
-  case $OPTION in
-    "s" ) OPTION_s="TRUE";;
-    "e" ) OPTION_e="TRUE";;
-    "c" ) OPTION_c="TRUE";;
-      * ) echo "Usage: $COMMAND [-s|e|c]" 1>&2
-          exit 1 ;;
-  esac
+    case "$OPT" in
+        '-h'|'--help' )
+            usage
+            exit 1
+            ;;
+        '--version' )
+            echo "ver.$VERSION"
+            exit 1
+            ;;
+        '-s'|'--start' )
+            ../build/start.py
+            exit 1;;
+        '-e'|'--end' )
+            ../build/end.py
+            exit 1;;
+        '-c'|'--calculate' )
+            ../build/calculate.py
+            exit 1;;
+        '--rmal' )
+            ../build/rm_codord.py
+            exit 1;;
+        -*)
+            echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
+            echo "Try '$PROGNAME --help' for more information." 1>&2
+            exit 1;;
+        *)
+            if [[ ! -z "$1" ]] && [[ ! "$1" =~ ^-+ ]]; then
+                #param=( ${param[@]} "$1" )
+                param+=( "$1" )
+                shift 2 #二つ前の処理に戻る
+            fi
+            ;;
+    esac
 done
 
 
-if [ "$OPTION_s" = "TRUE" ]; then
-  ../build/start.py
-fi
-
-if [ "$OPTION_e" = "TRUE" ]; then
-  ../build/end.py
-fi
-
-if [ "$OPTION_c" = "TRUE" ]; then
-  ../build/calculate.py
-fi
-
-exit 0
+######コマンドの引数（$@ にあたるもの）は param 変数に保持される##
+#if [ -z $param ]; then                                          #
+#    echo "$PROGNAME: too few arguments" 1>&2                    #
+#    echo "Try '$PROGNAME --help' for more information." 1>&2    #
+#    exit 1                                                      #
+#fi                                                              #
+##################################################################
