@@ -1,4 +1,5 @@
 #!/bin/bash
+cd `dirname $0`
 PROGNAME=$(basename $0)
 VERSION="1.3"
 
