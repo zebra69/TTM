@@ -34,7 +34,7 @@ do
             ../build/calculate.py
             exit 1;;
         '--rmal' )
-            ../build/rm_codord.py
+            ../build/rm_record.py
             exit 1;;
         -*)
             echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
