@@ -7,8 +7,8 @@ usage() {
     echo "Usage: $PROGNAME [OPTIONS]"
     echo
     echo "Options:"
-    echo "  [-h, --help] [ --version] "
-    echo "  [-s,--start] [-e,--end] [-c, --calculate]"
+    echo "  [-h, --help] [--version] "
+    echo "  [-s,--start] [-e,--end] [-c,--calculate]"
     echo "  [-rmal]"
     exit 1
 }
