@@ -15,8 +15,8 @@ def txtCheck(fname, check):
             if lastrow_sen.find(check) == -1:  # 偽の場合
                 print("Please start your task")
                 sys.exit()
-    except FileNotFoundError as e:
-        print(e)
+    except FileNotFoundError:
+        print(fname + " was not created.")
 
 
 def getTime(fname):
@@ -33,17 +33,24 @@ def getTime(fname):
 
 
 if __name__ == "__main__":
-    path = "../recorder/record.txt"
-    txtCheck(path, "start")
+    fname = sys.argv
+    path = "../recorder/" + fname[1]
 
-    start_time = getTime(path)
-    end = datetime.now()
-    print("End your task.")
-    print(end)
+    if os.path.isfile(path):
 
-    try:
-        with open(path, mode="a") as f:
-            f.write("end:   " + str(end) + "\n")
-            end_time = getTime(path)
-    except FileNotFoundError as e:
-        print(e)
+        txtCheck(path, "start")
+        start_time = getTime(path)
+        end = datetime.now()
+        print("End your task.")
+        print(end)
+
+        try:
+            with open(path, mode="a") as f:
+                f.write("end:   " + str(end) + "\n")
+                end_time = getTime(path)
+        except FileNotFoundError as e:
+            print(e)
+
+    else:
+        print(fname[1] + " was not created")
+        print("option:ttm --tag(-t) Tag")

@@ -62,32 +62,36 @@ def endGetTime(fname):
 
 
 if __name__ == "__main__":
-    path = "../recorder/record.txt"
+    fname = sys.argv
+    path = "../recorder/" + fname[1]
     txtCheck(path, "end")
+    if os.path.exists(path):
+        start_time = startGetTime(path)
+        end_time = endGetTime(path)
+        try:
+            with open(path, mode="a") as f:
+                task_time = calculateTime(start_time, end_time)
 
-    start_time = startGetTime(path)
-    end_time = endGetTime(path)
-    try:
-        with open(path, mode="a") as f:
-            task_time = calculateTime(start_time, end_time)
+                f.write(
+                    "task time: "
+                    + str(task_time[0])
+                    + ":"
+                    + str(task_time[1])
+                    + ":"
+                    + str(task_time[2])
+                )
+                f.write("\n----------------------------------\n")
+                print(
+                    "task time: "
+                    + str(task_time[0])
+                    + ":"
+                    + str(task_time[1])
+                    + ":"
+                    + str(task_time[2])
+                )
 
-            f.write(
-                "task time: "
-                + str(task_time[0])
-                + ":"
-                + str(task_time[1])
-                + ":"
-                + str(task_time[2])
-            )
-            f.write("\n----------------------------------\n")
-            print(
-                "task time: "
-                + str(task_time[0])
-                + ":"
-                + str(task_time[1])
-                + ":"
-                + str(task_time[2])
-            )
-
-    except FileNotFoundError as e:
-        print(e)
+        except FileNotFoundError as e:
+            print(e)
+    else:    
+        print(fname[1] + " was not created")
+        print("option:ttm --tag(-t) Tag")

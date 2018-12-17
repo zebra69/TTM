@@ -14,23 +14,25 @@ def txtCheck(fname, check):
             if lastrow_sen.find(check) == 0:  # 真の場合
                 print("The last task is not closed")
                 sys.exit()
-    except FileNotFoundError as e:
-        print(e)
+    except FileNotFoundError:
+        print(fname + " was not created.")
 
 
 if __name__ == "__main__":
     start = datetime.now()
 
-    path = "../recorder/record.txt"
-
-    txtCheck(path, "start")
-
-    print("Start your task.")
-    print(start)
-
-    try:
-        with open(path, mode="a") as f:
-            # f.write('----------------------------------\n')
-            f.write("start: " + str(start) + "\n")
-    except FileNotFoundError as e:
-        print(e)
+    fname = sys.argv
+    path = "../recorder/" + fname[1]
+    if os.path.isfile(path):
+        txtCheck(path, "start")
+        print("Start your task.")
+        print(start)
+        try:
+            with open(path, mode="a") as f:
+                # f.write('----------------------------------\n')
+                f.write("start: " + str(start) + "\n")
+        except FileNotFoundError as e:
+            print(e)
+    else:
+        print(fname[1] + " was not created")
+        print("option:ttm --tag(-t) Tag")

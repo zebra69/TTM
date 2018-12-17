@@ -11,16 +11,18 @@ def rmRecord(fname):
             heads_up = input(">>")
             if heads_up == "yes":  # 真の場合
                 os.remove(fname)
-                f = open(fname, "w")  # ファイルを開く(該当ファイルがなければ新規作成)
-                f.close()
                 print("All record removed.")
             else:
                 print("Quit this program")
-                sys.exit()
     except FileNotFoundError as e:
         print(e)
 
 
 if __name__ == "__main__":
-    path = "../recorder/record.txt"
-    rmRecord(path)
+    fname = sys.argv
+    path = "../recorder/" + fname[1]
+    print(path)
+    if os.path.isfile(path):
+        rmRecord(path)
+    else:
+        print("File is not found.")

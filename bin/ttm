@@ -9,7 +9,7 @@ usage() {
     echo "Options:"
     echo "  [-h, --help] [--version] "
     echo "  [-s,--start] [-e,--end] [-c,--calculate]"
-    echo "  [-rmal]"
+    echo "  [-rmal] [--view] [-t,--tag]"
     exit 1
 }
 
@@ -25,16 +25,46 @@ do
             exit 1
             ;;
         '-s'|'--start' )
-            ../build/start.py
+            if [ -n "$2" ]; then
+              ../build/startTag.py $2
+            else
+              ../build/start.py
+            fi
             exit 1;;
         '-e'|'--end' )
-            ../build/end.py
+            if [ -n "$2" ]; then
+              ../build/endTag.py $2
+            else
+             ../build/end.py
+            fi
             exit 1;;
         '-c'|'--calculate' )
-            ../build/calculate.py
+            if [ -n "$2" ]; then
+              ../build/calculateTag.py $2
+            else
+              ../build/calculate.py
+            fi
             exit 1;;
         '--rmal' )
-            ../build/rm_record.py
+            if [ -z "$2" ]; then
+              ../build/rm_record.py
+            else
+              ../build/rm_tag.py $2
+            fi
+            exit 1;;
+        '--view')
+            if [ -n "$2" ]; then
+              cat ../recorder/$2
+            else
+              cat ../recorder/record.txt
+            fi
+            exit 1;;
+        '-t'|'--tag' )
+            if [ -z "$2" ]; then
+              echo "$PROGNAME: Option requires \"ttm --tag(-t) Tag\"" 1>&2
+            else
+              ../build/make_tag.py $2
+            fi
             exit 1;;
         -*)
             echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
