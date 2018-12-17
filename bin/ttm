@@ -1,0 +1,90 @@
+#!/bin/bash
+cd `dirname $0`
+PROGNAME=$(basename $0)
+VERSION="1.3"
+
+usage() {
+    echo "Usage: $PROGNAME [OPTIONS]"
+    echo
+    echo "Options:"
+    echo "  [-h, --help] [--version] "
+    echo "  [-s,--start] [-e,--end] [-c,--calculate]"
+    echo "  [-rmal] [--view] [-t,--tag]"
+    exit 1
+}
+
+for OPT in "$@"
+do
+    case "$OPT" in
+        '-h'|'--help' )
+            usage
+            exit 1
+            ;;
+        '--version' )
+            echo "ver.$VERSION"
+            exit 1
+            ;;
+        '-s'|'--start' )
+            if [ -n "$2" ]; then
+              ../build/startTag.py $2
+            else
+              ../build/start.py
+            fi
+            exit 1;;
+        '-e'|'--end' )
+            if [ -n "$2" ]; then
+              ../build/endTag.py $2
+            else
+             ../build/end.py
+            fi
+            exit 1;;
+        '-c'|'--calculate' )
+            if [ -n "$2" ]; then
+              ../build/calculateTag.py $2
+            else
+              ../build/calculate.py
+            fi
+            exit 1;;
+        '--rmal' )
+            if [ -z "$2" ]; then
+              ../build/rm_record.py
+            else
+              ../build/rm_tag.py $2
+            fi
+            exit 1;;
+        '--view')
+            if [ -n "$2" ]; then
+              cat ../recorder/$2
+            else
+              cat ../recorder/record.txt
+            fi
+            exit 1;;
+        '-t'|'--tag' )
+            if [ -z "$2" ]; then
+              echo "$PROGNAME: Option requires \"ttm --tag(-t) Tag\"" 1>&2
+            else
+              ../build/make_tag.py $2
+            fi
+            exit 1;;
+        -*)
+            echo "$PROGNAME: illegal option -- '$(echo $1 | sed 's/^-*//')'" 1>&2
+            echo "Try '$PROGNAME --help' for more information." 1>&2
+            exit 1;;
+        *)
+            if [[ ! -z "$1" ]] && [[ ! "$1" =~ ^-+ ]]; then
+                #param=( ${param[@]} "$1" )
+                param+=( "$1" )
+                shift 2 #二つ前の処理に戻る
+            fi
+            ;;
+    esac
+done
+
+
+######コマンドの引数（$@ にあたるもの）は param 変数に保持される##
+#if [ -z $param ]; then                                          #
+#    echo "$PROGNAME: too few arguments" 1>&2                    #
+#    echo "Try '$PROGNAME --help' for more information." 1>&2    #
+#    exit 1                                                      #
+#fi                                                              #
+##################################################################
