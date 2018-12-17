@@ -9,7 +9,7 @@ usage() {
     echo "Options:"
     echo "  [-h, --help] [--version] "
     echo "  [-s,--start] [-e,--end] [-c,--calculate]"
-    echo "  [-rmal] [--view] [-t,--tag]"
+    echo "  [--ec] [-rmal] [--view] [-t,--tag]"
     exit 1
 }
 
@@ -42,6 +42,15 @@ do
             if [ -n "$2" ]; then
               ../build/calculateTag.py $2
             else
+              ../build/calculate.py
+            fi
+            exit 1;;
+        '--ec' )
+            if [ -n "$2" ]; then
+              ../build/endTag.py $2
+              ../build/calculateTag.py $2
+            else
+              ../build/end.py
               ../build/calculate.py
             fi
             exit 1;;
